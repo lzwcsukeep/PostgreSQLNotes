@@ -1,0 +1,14 @@
+pg_filedump 在解码元组上思路和流程和  PDU 一模一样
+
+pg_waldump 在扫描 WAL 日志上使用的 函数接口和 PDU 基本一样，只是 pg_waldump 没有解码元组。
+
+另，PDU 会在自己维护的FPI 上执行 redo 操作。
+
+
+
+预估 dirty_read 在解码元组上 思路和流程也和 PDU 一样。
+
+dirty_read 再解码元组上使用的是 PG 内核的代码， form_tuple，脏读元组的实现方式是使用 SnapshotAny 绕过可见性判断。
+
+
+

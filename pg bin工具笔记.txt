@@ -1,0 +1,5 @@
+pg_config = PostgreSQL 的“配置查询工具”
+它常用于：
+编译扩展（extension）
+查路径
+查编译参数

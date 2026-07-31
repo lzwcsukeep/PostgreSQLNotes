@@ -1,0 +1,42 @@
+1. 
+lsn 在某个 WAL segment号计算方式 ： segment_no = xlogptr / wal_segsz_bytes
+lsn 在 某个 WAL semgent 文件内的偏移量 ： offset = xlogptr % wal_segsz_bytes 
+
+计算 offset 的等价宏：
+
+#define XLogSegmentOffset(xlogptr, wal_segsz_bytes) \
+    ((xlogptr) & ((wal_segsz_bytes) - 1))
+
+
+2.
+segment 号计算成 WAL 文件名 ：
+
+#define XLogFileName(fname, tli, logSegNo, wal_segsz_bytes)	\
+	snprintf(fname, MAXFNAMELEN, "%08X%08X%08X", tli,		\
+			 (uint32) ((logSegNo) / XLogSegmentsPerXLogId(wal_segsz_bytes)), \
+			 (uint32) ((logSegNo) % XLogSegmentsPerXLogId(wal_segsz_bytes)))
+
+
+XLogSegmentsPerXLogId(wal_segsz_bytes)) 为计算一个 log 段能容纳多少个 segments.
+
+tli + log + seg ==> 文件名
+
+3.
+
+WAL 文件名 也可以计算成 segno
+
+
+4. 
+
+offset 可以用来定位 Page 和 Page 内偏移量。
+
+
+总结：
+
+lsn --> segment_no + offset
+
+segment_no -> WAL file name
+
+offset -> Page Number + Page offset
+
+

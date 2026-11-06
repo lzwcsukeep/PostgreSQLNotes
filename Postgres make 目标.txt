@@ -1,0 +1,17 @@
+make 或者 make all ： 编译 backend 即 postgres 和 bin
+
+make world     # If you want to build everything that can be built, including the documentation (HTML and man pages), and the additional modules (contrib)
+
+make world-bin  # build everything that can be built including contrib, but without the documentation
+
+
+make check:                            test the newly built server before you install it, you can run the regression tests at this point
+
+
+make install: 
+
+
+
+
+
+详细看这里： https://www.postgresql.org/docs/devel/install-make.html

@@ -1,0 +1,17 @@
+pg_current_wal_flush_lsn () → pg_lsn       // Returns the current write-ahead log flush location (see notes below).
+
+pg_current_wal_insert_lsn () → pg_lsn            //Returns the current write-ahead log insert location (see notes below).
+
+pg_current_wal_lsn () → pg_lsn          //     Returns the current write-ahead log write location (see notes below).
+
+
+pg_switch_wal () → pg_lsn  :
+
+     > Forces the server to switch to a new write-ahead log file, which allows the current file to be archived (assuming you are using continuous   archiving). The result is the ending write-ahead log location plus 1 within the just-completed write-ahead log file. If there has been no write-ahead log activity since the last write-ahead log switch, pg_switch_wal does nothing and returns the start location of the write-ahead log file currently in use.
+
+This function is restricted to superusers by default, but other users can be granted EXECUTE to run the function.
+
+
+pg_walfile_name ( lsn pg_lsn ) → text :
+
+       > Converts a write-ahead log location to the name of the WAL file holding that location.

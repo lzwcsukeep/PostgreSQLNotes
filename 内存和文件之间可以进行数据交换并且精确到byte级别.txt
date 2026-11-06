@@ -1,0 +1,58 @@
+>>>
+内存到文件： write 系： write , fwrite
+
+可以精确到 把内存里面的某个 buffer 写入到文件保存，且写入到文件的精确位置。
+
+seek()  --> 可以定位
+
+write 
+fwrite   --> 都接收一个 内存里的 buffer ，把这个 buffer 里的内容写入到文件 offset 位置。
+
+> ssize_t write(int fd, const void *buf, size_t count);
+
+> size_t fwrite(const void *ptr, size_t size, size_t nmemb,
+                     FILE *stream);
+> DESCRIPTION
+
+        The function fwrite() writes nmemb items of data, each size bytes long, to the stream pointed to by stream, obtaining them from the location given by ptr.
+
+故： 内存 到 文件： 将内存精确的 byte 级别的数据。写在文件某个精确的位置 。是可以做到的。
+
+
+>>>
+文件到内存： read 系： read, fread
+
+可以精确的从文件的某个位置开始读，读精确的想要的数量的数据，到内存精确的buffer 位置。
+
+offset --- 定位文件读取位置
+
+read
+fread 都会把文件这个 offset 起始的任意bytes 数的数据，读取到给定的 内存 buffer 里面
+
+ssize_t read(int fd, void *buf, size_t count);
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+DESCRIPTION
+       The function fread() reads nmemb items of data, each size bytes long, from the stream pointed to by stream, storing them at the location given by ptr.
+
+
+故： 文件到内存： 我可以精确的从文件的某个byte级别的位置开始读，读任意想要的数量，然后放在 内存的给定位置。
+
+然后读取到内存的数据的结构就可以随意解释。
+
+
+>>>
+总结论： 文件和内存这两种保存方式，从数据角度是没有区别的，都是 byte array 数据。因此两者可以进行 byte 级别的数据交换。从保存的数据内容角度没有任何区别。
+
+可以双向的进行 byte 级别的数据交换。
+
+区别在于： 
+
+如果需要持久保存，那么数据需要放在文件里面。
+如果数据需要进行处理，运算，那么需要放到内存里面。
+
+但是放在内存里运算之后，又可以写回文件里面，持久性保存。这就带来了很灵活。
+
+
+
